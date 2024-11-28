@@ -24,6 +24,7 @@
     <div class="container">
         <div id="monthlyChart" class="graph-container"></div>
         <div id="dailyChart" class="graph-container"></div>
+        <div id="dropletChart" class="graph-container"></div>
     </div>
 
     <script>
@@ -115,6 +116,68 @@ const dailyLayout = {
 };
 
         Plotly.newPlot('dailyChart', dailyData, dailyLayout);
+
+        const dropletData = [
+            {
+                x: ['Drizzle', 'Light Rain', 'Moderate Rain', 'Heavy Rain', 'Very Heavy Rain'],
+                y: [0.2, 0.5, 2.0, 3.0, 5.0],
+                name: 'Droplet Size (mm)',
+                type: 'scatter',
+                mode: 'lines+markers',
+                line: {
+                    color: '#8884d8',
+                    width: 3,
+                    shape: 'spline'
+                }
+            },
+            {
+                x: ['Drizzle', 'Light Rain', 'Moderate Rain', 'Heavy Rain', 'Very Heavy Rain'],
+                y: [0.7, 2.0, 4.0, 6.0, 9.0],
+                name: 'Terminal Velocity (m/s)',
+                type: 'scatter',
+                mode: 'lines+markers',
+                line: {
+                    color: '#82ca9d',
+                    width: 3,
+                    shape: 'spline'
+                }
+            },
+            {
+                x: ['Drizzle', 'Light Rain', 'Moderate Rain', 'Heavy Rain', 'Very Heavy Rain'],
+                y: [1.0, 2.5, 5.0, 7.6, 10.0],
+                name: 'Intensity (mm/hr)',
+                type: 'scatter',
+                mode: 'lines+markers',
+                line: {
+                    color: '#ffc658',
+                    width: 3,
+                    shape: 'spline'
+                }
+            }
+        ];
+
+        const dropletLayout = {
+            title: 'Raindrop Characteristics by Rain Type',
+            xaxis: {
+                title: 'Rain Type'
+            },
+            yaxis: {
+                title: 'Value',
+                zeroline: true
+            },
+            height: 500,
+            showlegend: true,
+            plot_bgcolor: 'white',
+            paper_bgcolor: 'white',
+            margin: {
+                l: 60,
+                r: 30,
+                t: 50,
+                b: 50
+            }
+        };
+
+        Plotly.newPlot('dropletChart', dropletData, dropletLayout);
     </script>
 </body>
 </html>
