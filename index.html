@@ -2,30 +2,44 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Droplet-Skin Interaction</title>
+    <title>Vancouver Precipitation Patterns</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            margin: 0; 
+            padding: 0;
+            overflow: hidden;
+            background: transparent;
+        }
+        #dropletSkinChart {
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
 </head>
 <body>
     <div id="dropletSkinChart"></div>
 
     <script>
-        const timePoints = Array.from({length: 100}, (_, i) => i/10); // 0 to 10 seconds
+        const timePoints = Array.from({length: 100}, (_, i) => i/10);
         
-        // Generate data for different aspects of droplet-skin interaction
         const impactData = timePoints.map(t => ({
             x: t,
-            y: t < 0.1 ? Math.exp(-t*50) : Math.exp(-t*5)  // Sharp impact, then gradual fade
+            y: t < 0.1 ? Math.exp(-t*50) : Math.exp(-t*5)
         }));
 
         const sensationData = timePoints.map(t => ({
             x: t,
-            y: t < 0.2 ? Math.sin(t*31.4)*Math.exp(-t*2) : Math.exp(-t*2) // Initial shock wave, then lingering sensation
+            y: t < 0.2 ? Math.sin(t*31.4)*Math.exp(-t*2) : Math.exp(-t*2)
         }));
 
         const absorptionData = timePoints.map(t => ({
             x: t,
-            y: (1 - Math.exp(-t*0.5)) * Math.exp(-t*0.1) // Gradual absorption then evaporation
+            y: (1 - Math.exp(-t*0.5)) * Math.exp(-t*0.1)
         }));
 
         const data = [
@@ -68,75 +82,80 @@
         ];
 
         const layout = {
-    title: 'Single Raindrop Impact on Skin',
-    font: {
-        family: 'Open Sans',
-        size: 12,
-        color: '#ffffff'  // White text for visibility on dark background
-    },
-    xaxis: {
-        title: 'Time (seconds)',
-        range: [0, 2],
-        gridcolor: 'rgba(255,255,255,0.1)',  // Subtle grid lines
-        color: '#ffffff'
-    },
-    yaxis: {
-        title: 'Relative Intensity',
-        range: [0, 1],
-        gridcolor: 'rgba(255,255,255,0.1)',
-        color: '#ffffff'
-    },
-    showlegend: true,
-    autosize: true,
-    height: '100%',
-    width: '100%',
-    paper_bgcolor: 'rgba(0,0,0,0)',
-    plot_bgcolor: 'rgba(0,0,0,0)',
-    margin: {
-        l: 80,
-        r: 40,
-        t: 60,
-        b: 60
-    },
-    annotations: [
-        {
-            x: 0.1,
-            y: 0.95,
-            text: 'Initial Impact',
-            showarrow: true,
-            arrowhead: 2,
-            font: { color: '#ffffff' },  // White text for annotations
-            arrowcolor: '#ffffff'        // White arrows
-        },
-        {
-            x: 0.3,
-            y: 0.6,
-            text: 'Nerve Response Peak',
-            showarrow: true,
-            arrowhead: 2,
-            font: { color: '#ffffff' },
-            arrowcolor: '#ffffff'
-        },
-        {
-            x: 1,
-            y: 0.4,
-            text: 'Moisture Absorption',
-            showarrow: true,
-            arrowhead: 2,
-            font: { color: '#ffffff' },
-            arrowcolor: '#ffffff'
-        }
-    ]
-};
-const config = {
-    displayModeBar: false,
-    responsive: true,
-    scrollZoom: false,
-    staticPlot: false
+            title: 'Single Raindrop Impact on Skin',
+            autosize: true,
+            font: {
+                family: 'Open Sans',
+                size: 16,
+                color: '#ffffff'
+            },
+            xaxis: {
+                title: 'Time (seconds)',
+                range: [0, 2],
+                gridcolor: 'rgba(255,255,255,0.1)',
+                color: '#ffffff'
+            },
+            yaxis: {
+                title: 'Relative Intensity',
+                range: [0, 1],
+                gridcolor: 'rgba(255,255,255,0.1)',
+                color: '#ffffff'
+            },
+            showlegend: true,
+            legend: {
+                font: { color: '#ffffff' }
+            },
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0)',
+            margin: {
+                l: 80,
+                r: 40,
+                t: 60,
+                b: 60
+            },
+            annotations: [
+                {
+                    x: 0.1,
+                    y: 0.95,
+                    text: 'Initial Impact',
+                    showarrow: true,
+                    arrowhead: 2,
+                    font: { color: '#ffffff' },
+                    arrowcolor: '#ffffff'
+                },
+                {
+                    x: 0.3,
+                    y: 0.6,
+                    text: 'Nerve Response Peak',
+                    showarrow: true,
+                    arrowhead: 2,
+                    font: { color: '#ffffff' },
+                    arrowcolor: '#ffffff'
+                },
+                {
+                    x: 1,
+                    y: 0.4,
+                    text: 'Moisture Absorption',
+                    showarrow: true,
+                    arrowhead: 2,
+                    font: { color: '#ffffff' },
+                    arrowcolor: '#ffffff'
+                }
+            ]
+        };
 
-Plotly.newPlot('dropletSkinChart', data, layout, config);
+        const config = {
+            displayModeBar: false,
+            responsive: true,
+            scrollZoom: false,
+            staticPlot: false
+        };
 
-        Plotly.newPlot('dropletSkinChart', data, layout);
+        Plotly.newPlot('dropletSkinChart', data, layout, config);
+
+        window.addEventListener('resize', function() {
+            Plotly.Plots.resize('dropletSkinChart');
+        });
     </script>
 </body>
 </html>
