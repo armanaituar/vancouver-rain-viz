@@ -68,53 +68,70 @@
         ];
 
         const layout = {
-            title: 'Single Raindrop Impact on Skin',
-            font: {
-                family: 'Open Sans',
-                size: 12
-            },
-            xaxis: {
-                title: 'Time (seconds)',
-                range: [0, 2]  // Focus on first 2 seconds
-            },
-            yaxis: {
-                title: 'Relative Intensity',
-                range: [0, 1]
-            },
-            height: 500,
-            showlegend: true,
-            plot_bgcolor: 'white',
-            paper_bgcolor: 'white',
-            margin: {
-                l: 60,
-                r: 30,
-                t: 50,
-                b: 50
-            },
-            annotations: [
-                {
-                    x: 0.1,
-                    y: 0.95,
-                    text: 'Initial Impact',
-                    showarrow: true,
-                    arrowhead: 2
-                },
-                {
-                    x: 0.3,
-                    y: 0.6,
-                    text: 'Nerve Response Peak',
-                    showarrow: true,
-                    arrowhead: 2
-                },
-                {
-                    x: 1,
-                    y: 0.4,
-                    text: 'Moisture Absorption',
-                    showarrow: true,
-                    arrowhead: 2
-                }
-            ]
-        };
+    title: 'Single Raindrop Impact on Skin',
+    font: {
+        family: 'Open Sans',
+        size: 12,
+        color: '#ffffff'  // White text for visibility on dark background
+    },
+    xaxis: {
+        title: 'Time (seconds)',
+        range: [0, 2],
+        gridcolor: 'rgba(255,255,255,0.1)',  // Subtle grid lines
+        color: '#ffffff'
+    },
+    yaxis: {
+        title: 'Relative Intensity',
+        range: [0, 1],
+        gridcolor: 'rgba(255,255,255,0.1)',
+        color: '#ffffff'
+    },
+    height: 500,
+    showlegend: true,
+    paper_bgcolor: 'rgba(0,0,0,0)',  // Transparent background
+    plot_bgcolor: 'rgba(0,0,0,0)',   // Transparent plot area
+    margin: {
+        l: 80,
+        r: 40,
+        t: 60,
+        b: 60
+    },
+    annotations: [
+        {
+            x: 0.1,
+            y: 0.95,
+            text: 'Initial Impact',
+            showarrow: true,
+            arrowhead: 2,
+            font: { color: '#ffffff' },  // White text for annotations
+            arrowcolor: '#ffffff'        // White arrows
+        },
+        {
+            x: 0.3,
+            y: 0.6,
+            text: 'Nerve Response Peak',
+            showarrow: true,
+            arrowhead: 2,
+            font: { color: '#ffffff' },
+            arrowcolor: '#ffffff'
+        },
+        {
+            x: 1,
+            y: 0.4,
+            text: 'Moisture Absorption',
+            showarrow: true,
+            arrowhead: 2,
+            font: { color: '#ffffff' },
+            arrowcolor: '#ffffff'
+        }
+    ]
+};
+        const config = {
+    displayModeBar: false,
+    responsive: true
+};
+
+Plotly.newPlot('dropletSkinChart', data, layout, config);
 
         Plotly.newPlot('dropletSkinChart', data, layout);
     </script>
