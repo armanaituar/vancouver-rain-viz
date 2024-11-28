@@ -61,39 +61,58 @@
                                 0.3, 0.4, 0.5, 0.5, 0.4, 0.3, 0.2, 0.1, 0.1, 0.1, 0.1, 0.1];
 
         const dailyData = [
-            {
-                x: hours,
-                y: winterIntensity,
-                type: 'scatter',
-                mode: 'lines',
-                name: 'Winter Rain Intensity',
-                line: {color: '#2196F3'}
-            },
-            {
-                x: hours,
-                y: summerIntensity,
-                type: 'scatter',
-                mode: 'lines',
-                name: 'Summer Rain Intensity',
-                line: {color: '#FF9800'}
-            }
-        ];
+    {
+        x: hours,
+        y: winterIntensity,
+        type: 'scatter',
+        mode: 'lines',
+        name: 'Winter Rain Intensity',
+        line: {
+            color: '#2196F3',
+            shape: 'spline',  // Makes the line smoother
+            width: 3         // Makes the line more visible
+        }
+    },
+    {
+        x: hours,
+        y: summerIntensity,
+        type: 'scatter',
+        mode: 'lines',
+        name: 'Summer Rain Intensity',
+        line: {
+            color: '#FF9800',
+            shape: 'spline',  // Makes the line smoother
+            width: 3         // Makes the line more visible
+        }
+    }
+];
 
-        const dailyLayout = {
-            title: '24-Hour Rain Intensity Patterns',
-            xaxis: {
-                title: 'Hour of Day',
-                tickmode: 'array',
-                ticktext: hours,
-                tickvals: hours
-            },
-            yaxis: {
-                title: 'Rain Intensity (mm/hr)',
-                range: [0, 0.8]
-            },
-            height: 500,
-            showlegend: true
-        };
+const dailyLayout = {
+    title: '24-Hour Rain Intensity Patterns',
+    xaxis: {
+        title: 'Hour of Day',
+        tickmode: 'array',
+        ticktext: hours,
+        tickvals: hours
+    },
+    yaxis: {
+        title: 'Rain Intensity (mm/hr)',
+        range: [0, 0.8],
+        dtick: 0.1,        // Sets tick marks every 0.1 units
+        gridwidth: 1,      // Makes grid lines thinner
+        zeroline: true     // Emphasizes the zero line
+    },
+    height: 500,
+    showlegend: true,
+    plot_bgcolor: 'white',  // White background
+    paper_bgcolor: 'white', // White surrounding
+    margin: {              // Adjust margins
+        l: 60,
+        r: 30,
+        t: 50,
+        b: 50
+    }
+};
 
         Plotly.newPlot('dailyChart', dailyData, dailyLayout);
     </script>
