@@ -3,10 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>Vancouver Precipitation Patterns</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/recharts/2.10.3/Recharts.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
         body { 
             margin: 0; 
@@ -22,52 +19,46 @@
             height: 400px; 
             margin-bottom: 40px; 
         }
-        h2 {
-            color: #333;
-            font-weight: 500;
-        }
     </style>
 </head>
 <body>
-    <div id="root"></div>
-    <script type="text/babel">
-        const { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } = Recharts;
+    <div class="container">
+        <div id="precipitationChart"></div>
+    </div>
 
-        function PrecipitationChart() {
-            const monthlyData = [
-                { name: 'Jan', precipitation: 168 },
-                { name: 'Feb', precipitation: 112 },
-                { name: 'Mar', precipitation: 114 },
-                { name: 'Apr', precipitation: 89 },
-                { name: 'May', precipitation: 65 },
-                { name: 'Jun', precipitation: 54 },
-                { name: 'Jul', precipitation: 41 },
-                { name: 'Aug', precipitation: 41 },
-                { name: 'Sep', precipitation: 51 },
-                { name: 'Oct', precipitation: 121 },
-                { name: 'Nov', precipitation: 182 },
-                { name: 'Dec', precipitation: 182 }
-            ];
+    <script>
+        // Monthly precipitation data
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const precipitation = [168, 112, 114, 89, 65, 54, 41, 41, 51, 121, 182, 182];
 
-            return (
-                <div className="container">
-                    <h2>Monthly Precipitation in Vancouver</h2>
-                    <div className="graph-container">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <BarChart data={monthlyData}>
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis dataKey="name" />
-                                <YAxis label={{ value: 'Precipitation (mm)', angle: -90, position: 'insideLeft' }} />
-                                <Tooltip />
-                                <Bar dataKey="precipitation" fill="#2196F3" />
-                            </BarChart>
-                        </ResponsiveContainer>
-                    </div>
-                </div>
-            );
-        }
+        // Create the bar chart
+        const data = [{
+            x: months,
+            y: precipitation,
+            type: 'bar',
+            marker: {
+                color: '#2196F3'
+            }
+        }];
 
-        ReactDOM.render(<PrecipitationChart />, document.getElementById('root'));
+        const layout = {
+            title: 'Monthly Precipitation in Vancouver',
+            xaxis: {
+                title: 'Month'
+            },
+            yaxis: {
+                title: 'Precipitation (mm)'
+            },
+            height: 500,
+            margin: {
+                t: 50,
+                b: 50,
+                l: 50,
+                r: 25
+            }
+        };
+
+        Plotly.newPlot('precipitationChart', data, layout);
     </script>
 </body>
 </html>
