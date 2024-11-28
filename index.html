@@ -25,6 +25,7 @@
         <div id="monthlyChart" class="graph-container"></div>
         <div id="dailyChart" class="graph-container"></div>
         <div id="dropletChart" class="graph-container"></div>
+        <div id="materialChart" class="graph-container"></div>
     </div>
 
     <script>
@@ -178,6 +179,62 @@ const dailyLayout = {
         };
 
         Plotly.newPlot('dropletChart', dropletData, dropletLayout);
+
+         const materialData = [
+            {
+                x: ['Stone', 'Wood', 'Modern Concrete', 'Glass/Steel', 'Living Walls'],
+                y: [100, 50, 75, 40, 30],
+                name: 'Lifespan (years)',
+                type: 'bar',
+                marker: {color: '#8884d8'}
+            },
+            {
+                x: ['Stone', 'Wood', 'Modern Concrete', 'Glass/Steel', 'Living Walls'],
+                y: [20, 70, 30, 60, 85],
+                name: 'Maintenance Needs',
+                type: 'bar',
+                marker: {color: '#82ca9d'}
+            },
+            {
+                x: ['Stone', 'Wood', 'Modern Concrete', 'Glass/Steel', 'Living Walls'],
+                y: [60, 80, 20, 10, 95],
+                name: 'Water Permeability',
+                type: 'bar',
+                marker: {color: '#ffc658'}
+            },
+            {
+                x: ['Stone', 'Wood', 'Modern Concrete', 'Glass/Steel', 'Living Walls'],
+                y: [90, 95, 40, 30, 100],
+                name: 'Natural Harmony',
+                type: 'bar',
+                marker: {color: '#ff7300'}
+            }
+        ];
+
+        const materialLayout = {
+            title: 'Building Material Performance Metrics',
+            barmode: 'group',
+            xaxis: {
+                title: 'Material Type'
+            },
+            yaxis: {
+                title: 'Score',
+                range: [0, 100],
+                ticksuffix: '%'
+            },
+            height: 500,
+            showlegend: true,
+            plot_bgcolor: 'white',
+            paper_bgcolor: 'white',
+            margin: {
+                l: 60,
+                r: 30,
+                t: 50,
+                b: 50
+            }
+        };
+
+        Plotly.newPlot('materialChart', materialData, materialLayout);
     </script>
 </body>
 </html>
