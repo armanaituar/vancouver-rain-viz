@@ -2,260 +2,121 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Vancouver Precipitation Patterns</title>
+    <title>Droplet-Skin Interaction</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        body { 
-            margin: 0; 
-            font-family: 'Open Sans', sans-serif;
-            background: white;
-        }
-        .container { 
-            padding: 20px; 
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .graph-container { 
-            margin-bottom: 60px; 
-        }
-    </style>
 </head>
 <body>
-   <div class="container">
-    <div id="dropletSkinChart" class="graph-container"></div>  <!-- New -->
-    <div id="dropletChart" class="graph-container"></div>      <!-- Moved up -->
-    <div id="dailyChart" class="graph-container"></div>        <!-- Same -->
-    <div id="monthlyChart" class="graph-container"></div>      <!-- Moved down -->
-    <div id="materialChart" class="graph-container"></div>     <!-- Same -->
-</div>
+    <div id="dropletSkinChart"></div>
 
     <script>
-        // Common layout settings
-        const commonLayout = {
+        const timePoints = Array.from({length: 100}, (_, i) => i/10); // 0 to 10 seconds
+        
+        // Generate data for different aspects of droplet-skin interaction
+        const impactData = timePoints.map(t => ({
+            x: t,
+            y: t < 0.1 ? Math.exp(-t*50) : Math.exp(-t*5)  // Sharp impact, then gradual fade
+        }));
+
+        const sensationData = timePoints.map(t => ({
+            x: t,
+            y: t < 0.2 ? Math.sin(t*31.4)*Math.exp(-t*2) : Math.exp(-t*2) // Initial shock wave, then lingering sensation
+        }));
+
+        const absorptionData = timePoints.map(t => ({
+            x: t,
+            y: (1 - Math.exp(-t*0.5)) * Math.exp(-t*0.1) // Gradual absorption then evaporation
+        }));
+
+        const data = [
+            {
+                x: timePoints,
+                y: impactData.map(d => d.y),
+                name: 'Impact Force',
+                type: 'scatter',
+                mode: 'lines',
+                line: {
+                    color: '#2196F3',
+                    shape: 'spline',
+                    width: 3
+                }
+            },
+            {
+                x: timePoints,
+                y: sensationData.map(d => d.y),
+                name: 'Nerve Response',
+                type: 'scatter',
+                mode: 'lines',
+                line: {
+                    color: '#FF9800',
+                    shape: 'spline',
+                    width: 3
+                }
+            },
+            {
+                x: timePoints,
+                y: absorptionData.map(d => d.y),
+                name: 'Moisture Level',
+                type: 'scatter',
+                mode: 'lines',
+                line: {
+                    color: '#4CAF50',
+                    shape: 'spline',
+                    width: 3
+                }
+            }
+        ];
+
+        const layout = {
+            title: 'Single Raindrop Impact on Skin',
             font: {
                 family: 'Open Sans',
                 size: 12
             },
-            paper_bgcolor: 'white',
+            xaxis: {
+                title: 'Time (seconds)',
+                range: [0, 2]  // Focus on first 2 seconds
+            },
+            yaxis: {
+                title: 'Relative Intensity',
+                range: [0, 1]
+            },
+            height: 500,
+            showlegend: true,
             plot_bgcolor: 'white',
-            hoverlabel: { enabled: false },
+            paper_bgcolor: 'white',
             margin: {
                 l: 60,
                 r: 30,
                 t: 50,
                 b: 50
             },
-            height: 500
+            annotations: [
+                {
+                    x: 0.1,
+                    y: 0.95,
+                    text: 'Initial Impact',
+                    showarrow: true,
+                    arrowhead: 2
+                },
+                {
+                    x: 0.3,
+                    y: 0.6,
+                    text: 'Nerve Response Peak',
+                    showarrow: true,
+                    arrowhead: 2
+                },
+                {
+                    x: 1,
+                    y: 0.4,
+                    text: 'Moisture Absorption',
+                    showarrow: true,
+                    arrowhead: 2
+                }
+            ]
         };
 
-        // Monthly Chart
-        const monthlyData = [{
-            x: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-            y: [168, 112, 114, 89, 65, 54, 41, 41, 51, 121, 182, 182],
-            type: 'bar',
-            width: 0.5,
-            marker: {
-                color: '#2196F3',
-                borderRadius: 10,
-                line: { width: 0 }
-            },
-            text: [168, 112, 114, 89, 65, 54, 41, 41, 51, 121, 182, 182],
-            textposition: 'auto',
-            hoverinfo: 'y',
-            name: 'Monthly Rainfall'
-        }];
-
-        const monthlyLayout = {
-            ...commonLayout,
-            title: 'Monthly Precipitation in Vancouver',
-            xaxis: {title: 'Month'},
-            yaxis: {title: 'Precipitation (mm)'}
-        };
-
-        // Daily Chart [Same as before, no changes needed for line charts]
-        const hours = Array.from({length: 24}, (_, i) => i.toString().padStart(2, '0') + ':00');
-        const winterIntensity = [0.3, 0.4, 0.5, 0.6, 0.7, 0.6, 0.2, 0.1, 0.1, 0.1, 0.1, 0.1, 
-                                0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.2];
-        const summerIntensity = [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.2, 0.2, 0.3, 
-                                0.3, 0.4, 0.5, 0.5, 0.4, 0.3, 0.2, 0.1, 0.1, 0.1, 0.1, 0.1];
-
-        const dailyData = [
-            {
-                x: hours,
-                y: winterIntensity,
-                type: 'scatter',
-                mode: 'lines',
-                name: 'Winter Rain Intensity',
-                line: {
-                    color: '#2196F3',
-                    shape: 'spline',
-                    width: 3
-                },
-                hoverinfo: 'y'
-            },
-            {
-                x: hours,
-                y: summerIntensity,
-                type: 'scatter',
-                mode: 'lines',
-                name: 'Summer Rain Intensity',
-                line: {
-                    color: '#FF9800',
-                    shape: 'spline',
-                    width: 3
-                },
-                hoverinfo: 'y'
-            }
-        ];
-
-        const dailyLayout = {
-            ...commonLayout,
-            title: '24-Hour Rain Intensity Patterns',
-            xaxis: {
-                title: 'Hour of Day',
-                tickmode: 'array',
-                ticktext: hours,
-                tickvals: hours
-            },
-            yaxis: {
-                title: 'Rain Intensity (mm/hr)',
-                range: [0, 0.8],
-                dtick: 0.1
-            }
-        };
-
-        // Droplet Chart [Same as before, no changes needed for line charts]
-        const dropletData = [
-            {
-                x: ['Drizzle', 'Light Rain', 'Moderate Rain', 'Heavy Rain', 'Very Heavy Rain'],
-                y: [0.2, 0.5, 2.0, 3.0, 5.0],
-                name: 'Droplet Size (mm)',
-                type: 'scatter',
-                mode: 'lines+markers',
-                line: {
-                    color: '#8884d8',
-                    width: 3,
-                    shape: 'spline'
-                },
-                hoverinfo: 'y'
-            },
-            {
-                x: ['Drizzle', 'Light Rain', 'Moderate Rain', 'Heavy Rain', 'Very Heavy Rain'],
-                y: [0.7, 2.0, 4.0, 6.0, 9.0],
-                name: 'Terminal Velocity (m/s)',
-                type: 'scatter',
-                mode: 'lines+markers',
-                line: {
-                    color: '#82ca9d',
-                    width: 3,
-                    shape: 'spline'
-                },
-                hoverinfo: 'y'
-            },
-            {
-                x: ['Drizzle', 'Light Rain', 'Moderate Rain', 'Heavy Rain', 'Very Heavy Rain'],
-                y: [1.0, 2.5, 5.0, 7.6, 10.0],
-                name: 'Intensity (mm/hr)',
-                type: 'scatter',
-                mode: 'lines+markers',
-                line: {
-                    color: '#ffc658',
-                    width: 3,
-                    shape: 'spline'
-                },
-                hoverinfo: 'y'
-            }
-        ];
-
-        const dropletLayout = {
-            ...commonLayout,
-            title: 'Raindrop Characteristics by Rain Type',
-            xaxis: {title: 'Rain Type'},
-            yaxis: {title: 'Value'}
-        };
-
-        // Material Chart
-        const materialData = [
-            {
-                x: ['Stone', 'Wood', 'Modern Concrete', 'Glass/Steel', 'Living Walls'],
-                y: [100, 50, 75, 40, 30],
-                name: 'Lifespan (years)',
-                type: 'bar',
-                width: 0.15,
-                marker: {
-                    color: '#8884d8',
-                    borderRadius: 10,
-                    line: { width: 0 }
-                },
-                text: ['100%', '50%', '75%', '40%', '30%'],
-                textposition: 'auto',
-                hoverinfo: 'y'
-            },
-            {
-                x: ['Stone', 'Wood', 'Modern Concrete', 'Glass/Steel', 'Living Walls'],
-                y: [20, 70, 30, 60, 85],
-                name: 'Maintenance Needs',
-                type: 'bar',
-                width: 0.15,
-                marker: {
-                    color: '#82ca9d',
-                    borderRadius: 10,
-                    line: { width: 0 }
-                },
-                text: ['20%', '70%', '30%', '60%', '85%'],
-                textposition: 'auto',
-                hoverinfo: 'y'
-            },
-            {
-                x: ['Stone', 'Wood', 'Modern Concrete', 'Glass/Steel', 'Living Walls'],
-                y: [60, 80, 20, 10, 95],
-                name: 'Water Permeability',
-                type: 'bar',
-                width: 0.15,
-                marker: {
-                    color: '#ffc658',
-                    borderRadius: 10,
-                    line: { width: 0 }
-                },
-                text: ['60%', '80%', '20%', '10%', '95%'],
-                textposition: 'auto',
-                hoverinfo: 'y'
-            },
-            {
-                x: ['Stone', 'Wood', 'Modern Concrete', 'Glass/Steel', 'Living Walls'],
-                y: [90, 95, 40, 30, 100],
-                name: 'Natural Harmony',
-                type: 'bar',
-                width: 0.15,
-                marker: {
-                    color: '#ff7300',
-                    borderRadius: 10,
-                    line: { width: 0 }
-                },
-                text: ['90%', '95%', '40%', '30%', '100%'],
-                textposition: 'auto',
-                hoverinfo: 'y'
-            }
-        ];
-
-        const materialLayout = {
-            ...commonLayout,
-            title: 'Building Material Performance Metrics',
-            barmode: 'group',
-            xaxis: {title: 'Material Type'},
-            yaxis: {
-                title: 'Score',
-                range: [0, 100],
-                ticksuffix: '%'
-            }
-        };
-
-        // Plot all charts
-        Plotly.newPlot('monthlyChart', monthlyData, monthlyLayout);
-        Plotly.newPlot('dailyChart', dailyData, dailyLayout);
-        Plotly.newPlot('dropletChart', dropletData, dropletLayout);
-        Plotly.newPlot('materialChart', materialData, materialLayout);
+        Plotly.newPlot('dropletSkinChart', data, layout);
     </script>
 </body>
 </html>
