@@ -16,14 +16,14 @@
             margin: 0 auto;
         }
         .graph-container { 
-            height: 400px; 
-            margin-bottom: 40px; 
+            margin-bottom: 60px; 
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div id="precipitationChart"></div>
+        <div id="monthlyChart" class="graph-container"></div>
+        <div id="dailyChart" class="graph-container"></div>
     </div>
 
     <script>
@@ -31,34 +31,71 @@
         const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         const precipitation = [168, 112, 114, 89, 65, 54, 41, 41, 51, 121, 182, 182];
 
-        // Create the bar chart
-        const data = [{
+        // Create the monthly bar chart
+        const monthlyData = [{
             x: months,
             y: precipitation,
             type: 'bar',
-            marker: {
-                color: '#2196F3'
-            }
+            marker: {color: '#2196F3'},
+            name: 'Monthly Rainfall'
         }];
 
-        const layout = {
+        const monthlyLayout = {
             title: 'Monthly Precipitation in Vancouver',
-            xaxis: {
-                title: 'Month'
-            },
-            yaxis: {
-                title: 'Precipitation (mm)'
-            },
+            xaxis: {title: 'Month'},
+            yaxis: {title: 'Precipitation (mm)'},
             height: 500,
-            margin: {
-                t: 50,
-                b: 50,
-                l: 50,
-                r: 25
-            }
         };
 
-        Plotly.newPlot('precipitationChart', data, layout);
+        Plotly.newPlot('monthlyChart', monthlyData, monthlyLayout);
+
+        // Daily patterns data
+        const hours = Array.from({length: 24}, (_, i) => i.toString().padStart(2, '0') + ':00');
+        
+        // Winter intensity
+        const winterIntensity = [0.3, 0.4, 0.5, 0.6, 0.7, 0.6, 0.2, 0.1, 0.1, 0.1, 0.1, 0.1, 
+                                0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.2];
+        
+        // Summer intensity
+        const summerIntensity = [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.2, 0.2, 0.3, 
+                                0.3, 0.4, 0.5, 0.5, 0.4, 0.3, 0.2, 0.1, 0.1, 0.1, 0.1, 0.1];
+
+        const dailyData = [
+            {
+                x: hours,
+                y: winterIntensity,
+                type: 'scatter',
+                mode: 'lines',
+                name: 'Winter Rain Intensity',
+                line: {color: '#2196F3'}
+            },
+            {
+                x: hours,
+                y: summerIntensity,
+                type: 'scatter',
+                mode: 'lines',
+                name: 'Summer Rain Intensity',
+                line: {color: '#FF9800'}
+            }
+        ];
+
+        const dailyLayout = {
+            title: '24-Hour Rain Intensity Patterns',
+            xaxis: {
+                title: 'Hour of Day',
+                tickmode: 'array',
+                ticktext: hours,
+                tickvals: hours
+            },
+            yaxis: {
+                title: 'Rain Intensity (mm/hr)',
+                range: [0, 0.8]
+            },
+            height: 500,
+            showlegend: true
+        };
+
+        Plotly.newPlot('dailyChart', dailyData, dailyLayout);
     </script>
 </body>
 </html>
