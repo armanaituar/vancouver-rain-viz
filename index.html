@@ -39,44 +39,68 @@
             y: (1 - Math.exp(-t*0.5)) * Math.exp(-t*0.1)
         }));
 
-        const data = [
-            {
-                x: timePoints,
-                y: impactData.map(d => d.y),
-                name: 'Impact Force',
-                type: 'scatter',
-                mode: 'lines',
-                line: {
-                    color: '#2196F3',
-                    shape: 'spline',
-                    width: 3
-                }
+   const data = [
+    {
+        x: timePoints,
+        y: impactData.map(d => d.y),
+        name: 'Impact Force',
+        type: 'scatter',
+        mode: 'lines',
+        line: {
+            color: '#2196F3',
+            shape: 'spline',
+            width: 3
+        },
+        hovertemplate: '%{y:.4f} Impact Force<br>%{x:.1f}s',
+        hoverlabel: {
+            font: {
+                family: 'IBM Plex Mono',
+                size: 12
             },
-            {
-                x: timePoints,
-                y: sensationData.map(d => d.y),
-                name: 'Nerve Response',
-                type: 'scatter',
-                mode: 'lines',
-                line: {
-                    color: '#FF9800',
-                    shape: 'spline',
-                    width: 3
-                }
+            bgcolor: 'rgba(0,0,0,0)'  // transparent background
+        }
+    },
+    {
+        x: timePoints,
+        y: sensationData.map(d => d.y),
+        name: 'Nerve Response',
+        type: 'scatter',
+        mode: 'lines',
+        line: {
+            color: '#FF9800',
+            shape: 'spline',
+            width: 3
+        },
+        hovertemplate: '%{y:.4f} Nerve Response<br>%{x:.1f}s',
+        hoverlabel: {
+            font: {
+                family: 'IBM Plex Mono',
+                size: 12
             },
-            {
-                x: timePoints,
-                y: absorptionData.map(d => d.y),
-                name: 'Moisture Level',
-                type: 'scatter',
-                mode: 'lines',
-                line: {
-                    color: '#4CAF50',
-                    shape: 'spline',
-                    width: 3
-                }
-            }
-        ];
+            bgcolor: 'rgba(0,0,0,0)'
+        }
+    },
+    {
+        x: timePoints,
+        y: absorptionData.map(d => d.y),
+        name: 'Moisture Level',
+        type: 'scatter',
+        mode: 'lines',
+        line: {
+            color: '#4CAF50',
+            shape: 'spline',
+            width: 3
+        },
+        hovertemplate: '%{y:.4f} Moisture Level<br>%{x:.1f}s',
+        hoverlabel: {
+            font: {
+                family: 'IBM Plex Mono',
+                size: 12
+            },
+            bgcolor: 'rgba(0,0,0,0)'
+        }
+    }
+];
 
         const layout = {
             title: {
