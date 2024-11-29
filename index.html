@@ -51,14 +51,16 @@
             shape: 'spline',
             width: 3
         },
-        hovertemplate: '%{y:.4f} Impact Force<br>%{x:.1f}s',
-        hoverlabel: {
-            font: {
-                family: 'IBM Plex Mono',
-                size: 12
-            },
-            bgcolor: 'rgba(0,0,0,0)'  // transparent background
-        }
+hovertemplate: '%{y:.4f}<br>%{x:.1f}s<extra></extra>',  // The <extra></extra> removes the duplicate name
+hoverlabel: {
+    font: {
+        family: 'IBM Plex Mono',
+        size: 12,
+        color: '#ffffff'
+    },
+    bgcolor: 'rgba(0,0,0,0)',
+    bordercolor: 'rgba(0,0,0,0)'
+}
     },
     {
         x: timePoints,
@@ -133,11 +135,15 @@
                 range: [0, 2],
                 gridcolor: 'rgba(255,255,255,0.1)',
                 color: '#ffffff',
-                tickfont: {
-                    family: 'IBM Plex Mono',
-                    weight: 300,
-                    size: 12
-                },
+              tickfont: {
+        family: 'IBM Plex Mono',
+        weight: 300,
+        size: 12,
+        color: '#ffffff'
+    },
+    tickformat: '.1f',  // Format for tick labels
+    tickmode: 'array'
+},
                 tickpadding: 15
             },
             yaxis: {
@@ -154,11 +160,14 @@
                 range: [0, 1],
                 gridcolor: 'rgba(255,255,255,0.1)',
                 color: '#ffffff',
-                tickfont: {
-                    family: 'IBM Plex Mono',
-                    weight: 300,
-                    size: 12
-                },
+                    tickfont: {
+        family: 'IBM Plex Mono',
+        weight: 300,
+        size: 12,
+        color: '#ffffff'
+    },
+    tickformat: '.1f'
+}
                 tickpadding: 15
             },
             showlegend: true,
@@ -182,22 +191,9 @@
                 t: 80,
                 b: 80
             },
-            annotations: [
+            annotations: []
         {
-            x: 0.1,
-            y: 0.95,
-            text: 'Initial Impact',
-            showarrow: true,
-            arrowhead: 2,
-            font: { 
-                family: 'IBM Plex Mono',
-                weight: 300,
-                size: 12,
-                color: '#ffffff' 
-            },
-            bgcolor: 'rgba(0,0,0,0.7)',
-            borderpad: 4,
-            arrowcolor: '#ffffff'
+        
         },
         {
             x: 0.3,
