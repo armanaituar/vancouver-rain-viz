@@ -1,1 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Monthly Rain Patterns</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            margin: 0; 
+            padding: 0;
+            overflow: hidden;
+            background: transparent;
+        }
+        #monthlyChart {
+            width: 100%;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div id="monthlyChart"></div>
 
+    <script>
+        const data = [{
+            x: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            y: [168, 112, 114, 89, 65, 54, 41, 41, 51, 121, 182, 182],
+            type: 'bar',
+            width: 0.6,
+            marker: {
+                color: '#2196F3'
+            },
+            hovertemplate: '%{y} mm<extra></extra>',
+            hoverlabel: {
+                font: {
+                    family: 'IBM Plex Mono',
+                    size: 12,
+                    color: '#ffffff'
+                },
+                bgcolor: 'rgba(0,0,0,0)',
+                bordercolor: 'rgba(0,0,0,0)'
+            }
+        }];
+
+        const layout = {
+            title: {
+                text: 'MONTHLY PRECIPITATION IN VANCOUVER',
+                font: {
+                    family: 'IBM Plex Mono',
+                    weight: 300,
+                    size: 16,
+                    color: '#ffffff'
+                }
+            },
+            autosize: true,
+            font: {
+                family: 'IBM Plex Mono',
+                weight: 300,
+                size: 12,
+                color: '#ffffff'
+            },
+            xaxis: {
+                title: {
+                    text: 'Month',
+                    font: {
+                        family: 'IBM Plex Mono',
+                        weight: 300,
+                        size: 14,
+                        color: '#ffffff'
+                    },
+                    standoff: 40
+                },
+                gridcolor: 'rgba(255,255,255,0.1)',
+                color: '#ffffff',
+                tickfont: {
+                    family: 'IBM Plex Mono',
+                    weight: 300,
+                    size: 12,
+                    color: '#ffffff'
+                },
+                tickpadding: 20,
+                standoff: 40
+            },
+            yaxis: {
+                title: {
+                    text: 'Precipitation (mm)',
+                    font: {
+                        family: 'IBM Plex Mono',
+                        weight: 300,
+                        size: 14,
+                        color: '#ffffff'
+                    },
+                    standoff: 40
+                },
+                gridcolor: 'rgba(255,255,255,0.1)',
+                color: '#ffffff',
+                tickfont: {
+                    family: 'IBM Plex Mono',
+                    weight: 300,
+                    size: 12,
+                    color: '#ffffff'
+                },
+                tickpadding: 20,
+                standoff: 40
+            },
+            showlegend: false,
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0)',
+            margin: {
+                l: 120,
+                r: 120,
+                t: 80,
+                b: 80
+            }
+        };
+
+        const config = {
+            displayModeBar: false,
+            responsive: true
+        };
+
+        Plotly.newPlot('monthlyChart', data, layout, config);
+
+        window.addEventListener('resize', function() {
+            Plotly.Plots.resize('monthlyChart');
+        });
+    </script>
+</body>
+</html>
