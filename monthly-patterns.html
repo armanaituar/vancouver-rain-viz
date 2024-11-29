@@ -23,24 +23,31 @@
 
     <script>
         const data = [{
-            x: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-            y: [168, 112, 114, 89, 65, 54, 41, 41, 51, 121, 182, 182],
-            type: 'bar',
-            width: 0.6,
-            marker: {
-                color: '#2196F3'
-            },
-            hovertemplate: '%{y} mm<extra></extra>',
-            hoverlabel: {
-                font: {
-                    family: 'IBM Plex Mono',
-                    size: 12,
-                    color: '#ffffff'
-                },
-                bgcolor: 'rgba(0,0,0,0)',
-                bordercolor: 'rgba(0,0,0,0)'
-            }
-        }];
+    x: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    y: [168, 112, 114, 89, 65, 54, 41, 41, 51, 121, 182, 182],
+    type: 'bar',
+    width: 0.6,
+    marker: {
+        color: '#2196F3'
+    },
+    text: [168, 112, 114, 89, 65, 54, 41, 41, 51, 121, 182, 182],
+    textposition: 'outside',
+    textfont: {
+        family: 'IBM Plex Mono',
+        size: 12,
+        color: '#ffffff'
+    },
+    hovertemplate: '%{y} mm<extra></extra>',
+    hoverlabel: {
+        font: {
+            family: 'IBM Plex Mono',
+            size: 12,
+            color: '#ffffff'
+        },
+        bgcolor: 'rgba(0,0,0,0)',
+        bordercolor: 'rgba(0,0,0,0)'
+    }
+}];
 
         const layout = {
             title: {
@@ -80,6 +87,12 @@
                 },
                 tickpadding: 20,
                 standoff: 40
+                },
+                showticklabels: true,
+                showline: false,
+                showgrid: false,
+                zeroline: false,
+                ticks: ''
             },
             yaxis: {
                 title: {
@@ -111,7 +124,13 @@
                 r: 120,
                 t: 80,
                 b: 80
-            }
+            },
+            showticklabels: false,  // hides y-axis numbers
+            showline: false,
+            showgrid: false,
+            zeroline: false,
+            ticks: ''
+        }
         };
 
         const config = {
